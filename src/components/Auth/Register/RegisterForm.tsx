@@ -3,6 +3,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+
+import { toast } from "react-toastify";
+import { AuthContext } from "@/providers/AuthContext";
 
 interface FormData {
   name: string;
@@ -11,14 +15,27 @@ interface FormData {
 }
 
 const RegisterForm: React.FC = () => {
+  const { createUser } = useContext(AuthContext) || {}; // Get createUser function from context
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data: FormData) => {
+    if (!createUser) return;
+
+    try {
+      await createUser(data.email, data.password);
+      toast.success("Registration successful!");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
+    }
   };
 
   return (

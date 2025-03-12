@@ -3,6 +3,10 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+
+import { toast } from "react-toastify";
+import { AuthContext } from "@/providers/AuthContext";
 
 interface LoginFormInputs {
   email: string;
@@ -10,14 +14,27 @@ interface LoginFormInputs {
 }
 
 const LoginForm: React.FC = () => {
+  const { signInUser } = useContext(AuthContext) || {}; // Get signInUser from context
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log("Form Data:", data);
+  const onSubmit = async (data: LoginFormInputs) => {
+    if (!signInUser) return;
+
+    try {
+      await signInUser(data.email, data.password);
+      toast.success("Login successful!");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("An unknown error occurred.");
+      }
+    }
   };
 
   return (
@@ -53,7 +70,7 @@ const LoginForm: React.FC = () => {
       <p className="p-2 text-center">
         You haven't an account?
         <Link to="/register" className="text-blue-600 font-semibold ml-2">
-          register
+          Register
         </Link>
       </p>
     </div>
