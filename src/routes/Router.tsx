@@ -1,5 +1,6 @@
 import MainLayout from "@/layouts/MainLayout";
 import AddNews from "@/pages/AddNews/AddNews";
+import AllNews from "@/pages/AllNews/AllNews";
 import Login from "@/pages/Login/Login";
 import Register from "@/pages/Register/Register";
 import { createBrowserRouter } from "react-router-dom";
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: "add-news",
         element: <AddNews />,
+      },
+      {
+        path: "all-news",
+        element: <AllNews />,
       },
     ],
   },
