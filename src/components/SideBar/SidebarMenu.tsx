@@ -1,4 +1,11 @@
-import { Search, Settings, Newspaper } from "lucide-react";
+import {
+  Settings,
+  Newspaper,
+  PackageSearch,
+  ShoppingBasket,
+  Package,
+  Truck,
+} from "lucide-react";
 import { SiGooglenews } from "react-icons/si";
 import {
   SidebarGroupContent,
@@ -22,9 +29,24 @@ const items = [
   },
 
   {
-    title: "Search",
+    title: "Add Products",
     url: "#",
-    icon: Search,
+    icon: PackageSearch,
+  },
+  {
+    title: "All Products",
+    url: "#",
+    icon: ShoppingBasket,
+  },
+  {
+    title: "Oders",
+    url: "#",
+    icon: Package,
+  },
+  {
+    title: "Deliver History",
+    url: "#",
+    icon: Truck,
   },
   {
     title: "Settings",
