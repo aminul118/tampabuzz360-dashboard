@@ -1,5 +1,6 @@
 
-const HeroBanner = () => {
+
+const Home = () => {
     return (
         <div>
             
@@ -7,4 +8,4 @@ const HeroBanner = () => {
     );
 };
 
-export default HeroBanner;
+export default Home;

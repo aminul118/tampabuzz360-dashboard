@@ -1,10 +1,14 @@
-import Navbar from "@/components/layouts/Navbar/Navbar";
+import AppSidebar from "@/components/SideBar/AppSidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
     <>
-      <Navbar />
+      <SidebarProvider>
+        <AppSidebar />
+      </SidebarProvider>
+
       <Outlet />
     </>
   );
