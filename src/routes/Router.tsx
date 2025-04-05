@@ -1,4 +1,4 @@
-import MainLayout from "@/layouts/MainLayout";
+import DashboardLayout from "@/layouts/DashboardLayout";
 import AddNews from "@/pages/AddNews/AddNews";
 import AllNews from "@/pages/AllNews/AllNews";
 import Login from "@/pages/Login/Login";
@@ -8,7 +8,7 @@ import { createBrowserRouter } from "react-router-dom";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />,
+    element: <DashboardLayout />,
     children: [
       {
         path: "add-news",

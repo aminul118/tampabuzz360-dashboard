@@ -2,16 +2,15 @@ import AppSidebar from "@/components/SideBar/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Outlet } from "react-router-dom";
 
-const MainLayout = () => {
+const DashboardLayout = () => {
   return (
     <>
       <SidebarProvider>
         <AppSidebar />
+        <Outlet />
       </SidebarProvider>
-
-      <Outlet />
     </>
   );
 };
 
-export default MainLayout;
+export default DashboardLayout;

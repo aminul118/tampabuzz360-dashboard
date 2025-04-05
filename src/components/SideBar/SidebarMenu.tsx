@@ -40,7 +40,7 @@ const SidebarMenuContent = () => {
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
             <SidebarMenuButton asChild>
-              <Link to={item.url}>
+              <Link to={item.url} className="font-semibold">
                 <item.icon />
                 <span>{item.title}</span>
               </Link>
