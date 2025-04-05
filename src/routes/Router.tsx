@@ -11,14 +11,6 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
         path: "add-news",
         element: <AddNews />,
       },
@@ -27,6 +19,14 @@ const router = createBrowserRouter([
         element: <AllNews />,
       },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "register",
+    element: <Register />,
   },
 ]);
 

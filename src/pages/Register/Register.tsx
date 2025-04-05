@@ -1,6 +1,6 @@
-import LoginImage from "@/components/Auth/Login/LoginImage";
-import RegisterForm from "@/components/Auth/Register/RegisterForm";
 import Container from "@/components/ui/Container";
+import LoginImage from "../Auth/Login/LoginImage";
+import RegisterForm from "../Auth/Register/RegisterForm";
 
 const Register = () => {
   return (

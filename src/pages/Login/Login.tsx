@@ -1,6 +1,6 @@
-import LoginForm from "@/components/Auth/Login/LoginForm";
-import LoginImage from "@/components/Auth/Login/LoginImage";
 import Container from "@/components/ui/Container";
+import LoginImage from "../Auth/Login/LoginImage";
+import LoginForm from "../Auth/Login/LoginForm";
 
 const Login = () => {
   return (
