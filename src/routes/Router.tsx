@@ -1,3 +1,4 @@
+import Loader from "@/components/Loader/Loader";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import AddNews from "@/pages/AddNews/AddNews";
 import AllNews from "@/pages/AllNews/AllNews";
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "register",
     element: <Register />,
+  },
+  {
+    path: "loading",
+    element: <Loader />,
   },
 ]);
 

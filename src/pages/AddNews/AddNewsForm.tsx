@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -12,8 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Minus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
+import { toast } from "react-toastify";
 
+// Types
 type SubContent = {
   image: File | null;
   title: string;
@@ -25,6 +28,11 @@ type NewsFormInputs = {
   author: string;
   category: string;
   contents: SubContent[];
+};
+
+type ImgBBResponse = {
+  image: string;
+  delete_url: string;
 };
 
 const AddNewsForm: React.FC = () => {
@@ -46,10 +54,9 @@ const AddNewsForm: React.FC = () => {
   });
 
   const imgbbKey = import.meta.env.VITE_IMGBB_API_KEY;
-  console.log(imgbbKey);
 
-  const uploadToImgBB = async (images: File[]): Promise<string[]> => {
-    const urls: string[] = [];
+  const uploadToImgBB = async (images: File[]): Promise<ImgBBResponse[]> => {
+    const uploadedData: ImgBBResponse[] = [];
 
     for (const image of images) {
       const formData = new FormData();
@@ -64,35 +71,58 @@ const AddNewsForm: React.FC = () => {
       );
 
       const data = await res.json();
+
       if (data.success) {
-        urls.push(data.data.url);
+        uploadedData.push({
+          image: data.data.url,
+          delete_url: data.data.delete_url,
+        });
+      } else {
+        throw new Error("Image upload failed");
       }
     }
 
-    return urls;
+    return uploadedData;
   };
 
   const onSubmit = async (data: NewsFormInputs) => {
-    const imageFiles = data.contents
-      .map((c) => c.image)
-      .filter(Boolean) as File[];
-    const imageUrls = await uploadToImgBB(imageFiles);
+    try {
+      const imageFiles = data.contents
+        .map((c) => c.image)
+        .filter(Boolean) as File[];
 
-    const finalContents = data.contents.map((item, idx) => ({
-      image: imageUrls[idx],
-      title: item.title,
-      description: item.description,
-    }));
+      const uploadedImages = await uploadToImgBB(imageFiles);
 
-    const finalPayload = {
-      mainHeading: data.mainHeading,
-      author: data.author,
-      category: data.category,
-      contents: finalContents,
-    };
+      const finalContents = data.contents.map((item, idx) => ({
+        image: uploadedImages[idx].image,
+        delete_url: uploadedImages[idx].delete_url,
+        title: item.title,
+        description: item.description,
+      }));
 
-    console.log("Final Submitted Data:", finalPayload);
-    // send to backend if needed
+      const finalPayload = {
+        mainHeading: data.mainHeading,
+        author: data.author,
+        category: data.category,
+        contents: finalContents,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/news",
+        finalPayload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("News added successfully:", response.data);
+      toast.success("News added successfully");
+    } catch (error) {
+      console.error("Error during submission:", error);
+      toast.error("Error during submission");
+    }
   };
 
   return (
@@ -108,6 +138,7 @@ const AddNewsForm: React.FC = () => {
           <p className="text-red-500">{errors.mainHeading.message}</p>
         )}
       </div>
+
       <div className="grid grid-cols-2 gap-6">
         {/* Author */}
         <div>
@@ -121,8 +152,8 @@ const AddNewsForm: React.FC = () => {
           )}
         </div>
 
+        {/* Category */}
         <div>
-          {/* News Category */}
           <Label>News Category</Label>
           <Select onValueChange={(value) => setValue("category", value)}>
             <SelectTrigger>
@@ -143,14 +174,15 @@ const AddNewsForm: React.FC = () => {
         </div>
       </div>
 
-      {/* Dynamic Content Section */}
+      {/* Dynamic Content Sections */}
       {fields.map((field, index) => (
-        <div key={field.id} className=" p-4 rounded-md space-y-4 bg-blue-50">
+        <div key={field.id} className="p-4 rounded-md space-y-4 bg-blue-50">
           <h4 className="font-bold text-center text-2xl py-4">
             Information for section {index + 1}
           </h4>
 
           <div className="grid grid-cols-2 gap-6">
+            {/* Image */}
             <div>
               <Label>Image</Label>
               <Controller
@@ -169,6 +201,7 @@ const AddNewsForm: React.FC = () => {
               />
             </div>
 
+            {/* Title */}
             <div>
               <Label>Title</Label>
               <Input
@@ -185,6 +218,7 @@ const AddNewsForm: React.FC = () => {
             </div>
           </div>
 
+          {/* Description */}
           <div>
             <Label>Description</Label>
             <Textarea
@@ -201,27 +235,29 @@ const AddNewsForm: React.FC = () => {
             )}
           </div>
 
-          {/* ✅ Only allow removing if more than 1 section */}
+          {/* Remove Section */}
           {fields.length > 1 && (
             <Button
               type="button"
               variant="destructive"
               onClick={() => remove(index)}
             >
-              <Minus /> Remove Section
+              <Minus className="w-4 h-4 mr-1" /> Remove Section
             </Button>
           )}
         </div>
       ))}
 
+      {/* Add More Section */}
       <Button
         type="button"
         variant="outline"
         onClick={() => append({ image: null, title: "", description: "" })}
       >
-        + Add More Section
+        <Plus className="w-4 h-4 mr-1" /> Add More Section
       </Button>
 
+      {/* Submit Button */}
       <Button type="submit" className="ml-4">
         Submit News
       </Button>
