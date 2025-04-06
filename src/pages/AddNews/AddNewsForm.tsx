@@ -4,7 +4,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import {
   Select,
   SelectContent,
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Minus, Plus } from "lucide-react";
 import { toast } from "react-toastify";
+import useAxiosSecure from "@/hooks/useAxiosSecure";
 
 // Types
 type SubContent = {
@@ -36,6 +36,7 @@ type ImgBBResponse = {
 };
 
 const AddNewsForm: React.FC = () => {
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     handleSubmit,
@@ -107,15 +108,11 @@ const AddNewsForm: React.FC = () => {
         contents: finalContents,
       };
 
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/news",
-        finalPayload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axiosSecure.post("api/v1/news", finalPayload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       console.log("News added successfully:", response.data);
       toast.success("News added successfully");
