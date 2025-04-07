@@ -1,6 +1,6 @@
 import Container from "@/components/ui/Container";
 import Title from "@/components/ui/Title";
-import AddNewsForm from "./AddNewsForm";
+import AddNewsForm from "../../components/AddNews/AddNewsForm";
 
 const AddNews = () => {
   return (

@@ -1,9 +1,16 @@
 import Loader from "@/components/Loader/Loader";
 import DashboardLayout from "@/layouts/DashboardLayout";
-import AddNews from "@/pages/AddNews/AddNews";
-import AllNews from "@/pages/AllNews/AllNews";
-import Login from "@/pages/Login/Login";
-import Register from "@/pages/Register/Register";
+import AddNews from "@/pages/News/AddNews";
+import AllNews from "@/pages/News/AllNews";
+import DeliveryHistory from "@/pages/Products/DeliveryHistory";
+import Login from "@/pages/Auth/Login";
+import Orders from "@/pages/Products/Orders";
+import AddProducts from "@/pages/Products/AddProducts";
+import AllProducts from "@/pages/Products/AllProducts";
+import HomePagePromotion from "@/pages/Promotion/HomePagePromotion";
+import NewsDetailsPagePromotion from "@/pages/Promotion/NewsDetailsPagePromotion";
+import Register from "@/pages/Auth/Register";
+import { Settings } from "lucide-react";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -18,6 +25,34 @@ const router = createBrowserRouter([
       {
         path: "all-news",
         element: <AllNews />,
+      },
+      {
+        path: "promotion-home-page",
+        element: <HomePagePromotion />,
+      },
+      {
+        path: "promotion-news-details-page",
+        element: <NewsDetailsPagePromotion />,
+      },
+      {
+        path: "add-products",
+        element: <AddProducts />,
+      },
+      {
+        path: "all-products",
+        element: <AllProducts />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
+      },
+      {
+        path: "delivery-history",
+        element: <DeliveryHistory />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },

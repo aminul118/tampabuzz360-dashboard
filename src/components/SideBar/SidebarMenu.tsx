@@ -5,6 +5,7 @@ import {
   ShoppingBasket,
   Package,
   Truck,
+  Gem,
 } from "lucide-react";
 import { SiGooglenews } from "react-icons/si";
 import {
@@ -30,27 +31,37 @@ const items = [
 
   {
     title: "Add Products",
-    url: "#",
+    url: "add-products",
     icon: PackageSearch,
   },
   {
     title: "All Products",
-    url: "#",
+    url: "all-products",
     icon: ShoppingBasket,
   },
   {
+    title: "Home page Promotion",
+    url: "promotion-home-page",
+    icon: Gem,
+  },
+  {
+    title: "News Details page Promotion",
+    url: "promotion-news-details-page",
+    icon: Gem,
+  },
+  {
     title: "Oders",
-    url: "#",
+    url: "orders",
     icon: Package,
   },
   {
     title: "Deliver History",
-    url: "#",
+    url: "delivery-history",
     icon: Truck,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "settings",
     icon: Settings,
   },
 ];

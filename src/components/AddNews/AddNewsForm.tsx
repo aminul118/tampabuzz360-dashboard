@@ -88,15 +88,19 @@ const AddNewsForm: React.FC = () => {
 
   const onSubmit = async (data: NewsFormInputs) => {
     try {
+      // Filter out only the images that are selected
       const imageFiles = data.contents
         .map((c) => c.image)
         .filter(Boolean) as File[];
 
-      const uploadedImages = await uploadToImgBB(imageFiles);
+      // Upload images if available
+      const uploadedImages = imageFiles.length
+        ? await uploadToImgBB(imageFiles)
+        : [];
 
       const finalContents = data.contents.map((item, idx) => ({
-        image: uploadedImages[idx].image,
-        delete_url: uploadedImages[idx].delete_url,
+        image: uploadedImages[idx]?.image || "", // If no image, keep it empty
+        delete_url: uploadedImages[idx]?.delete_url || "", // If no image, keep it empty
         title: item.title,
         description: item.description,
       }));
